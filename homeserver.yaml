@@ -1,0 +1,83 @@
+server_name: "matrix.thebanned.club"  
+pid_file: /data/homeserver.pid  
+# Database Configuration  
+database:  
+  name: psycopg2  
+  args:  
+    user: synapse  
+    password: 0bang0PostmanPat  
+    database: synapse  
+    host: postgres  
+    port: 5432  
+    cp_min: 5  
+    cp_max: 10  
+# Listeners  
+listeners:  
+  - port: 8008  
+    tls: false  
+    type: http  
+    x_forwarded: true  
+    bind_addresses: ['0.0.0.0']  
+    resources:  
+      - names: [client, federation]  
+        compress: true  
+# Media Store  
+media_store_path: "/data/media_store"  
+max_upload_size: 50M  
+max_image_cache_size: 50M  
+# Registration - LOCKED DOWN  
+enable_registration: false  
+registration_requires_token: false  
+allow_guest_access: false  
+# Security Settings  
+trusted_key_servers:  
+  - server_name: "matrix.org"  
+# TURN Servers for Voice/Video Calls  
+turn_uris:  
+  - "turn:turn.matrix.org:3478?transport=udp"  
+  - "turn:turn.matrix.org:3478?transport=tcp"  
+  - "turn:turn.matrix.org:5349?transport=udp"  
+  - "turn:turn.matrix.org:5349?transport=tcp"  
+turn_shared_secret: "your_shared_secret_here"  
+turn_user_lifetime: 86400000  
+# Logging  
+log_config: "/data/logging.yaml"  
+# Metrics (disabled for security)  
+metrics_port: null  
+# Rate Limiting - Strict  
+rc_message:  
+  per_second: 0.2  
+  burst_count: 10  
+rc_registration:  
+  per_second: 0.17  
+  burst_count: 3  
+rc_login:  
+  address:  
+    per_second: 0.17  
+    burst_count: 3  
+  account:  
+    per_second: 0.17  
+    burst_count: 3  
+# Encryption - Enabled  
+encryption:  
+  allow_group_encryption: true  
+# Federation - Restricted  
+federation_domain_whitelist:  
+  - "matrix.org"  
+# Admin API  
+admin_contact: "mailto:admin@matrix.thebanned.club"  
+# Signing Keys  
+signing_key_path: "/data/matrix.thebanned.club.signing.key"  
+# Report Stats  
+report_stats: false  
+# Presence - Disabled for privacy  
+presence:  
+  enabled: false  
+# Retention Policy  
+retention:  
+  enabled: true  
+  default_policy:  
+    min_lifetime: 1d  
+    max_lifetime: 1y  
+  allowed_lifetime_min: 1d  
+  allowed_lifetime_max: 1y  
